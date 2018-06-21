@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Meteobike Animation</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Animated temperature measurements">
+    <meta name="keywords" content="urban heat island, measurements, freibourg">
+    <meta name="author" content="@joeyklee">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+</head>
+
+<body>
+    <div id="controls">
+        
+        
+        <div class="playback">
+            <div id="start" class="btn"><p>&#x25BA;</p></div>
+            <div id="stop" class="btn"><p>&#9612;&#9612;</p></div> 
+            <div class='session' id='sliderbar'>
+                <p><label id='active-time'></label></p>
+                <input id='slider' class='row' type='range' min='0' max='0' step='1' value='0' />
+            </div>
+        </div>
+    </div>
+    <div id="mapContainer"></div>
+    <!-- Scripts -->
+    <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
+    <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+
+</html>

@@ -7,7 +7,7 @@ window.onload = (function() {
     mapContainer = new mapboxgl.Map({
         container: 'mapContainer', // container element id
         style: 'mapbox://styles/mapbox/light-v9',
-        center: [7.8454780, 47.993220], // initial map center in [lon, lat]
+        center: [7.8454780, 47.999], // initial map center in [lon, lat]
         zoom: 11
     });
 

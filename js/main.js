@@ -83,7 +83,33 @@ window.onload = (function() {
                         type: 'geojson',
                         data: geojson
                     },
-                    filter: ['<=', ['number', ['get', 'Time_UTC']], startTime]
+                    filter: ['<=', ['number', ['get', 'Time_UTC']], startTime],
+                    paint: {
+                     'line-width': 3,
+                     'line-color': {
+                          "property": "Temperature_diff_K",
+                          "stops": [
+                            [-13, "#E3CEF6"],
+                            [-12, "#BE81F7"],
+                            [-11, "#5F04B4"],
+                            [-10, "#084B8A"],
+                            [-9, "#4000FF"],
+                            [-8, "#2E64FE"],
+                            [-7, "#819FF7"],
+                            [-6, "#58D3F7"],
+                            [-5, "#58FAD0"],
+                            [-4, "#6FBF00"],
+                            [-3, "#6FBF00"],
+                            [-2, "#ABC200"],
+                            [-1, "#C6A200"],
+                            [0, "#CA6800"],
+                            [1, "#CE2C00"],
+                            [2, "#D50052"],
+                            [3, "#DD00D9"],
+                            [4, "#A100E1"]
+                          ]
+                        }
+                    }
                 })
             })
 

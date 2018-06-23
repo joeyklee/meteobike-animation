@@ -20,13 +20,19 @@
 <body>
     <div id="controls">
         <div id="projectDescription">
-            <p><b>THE URBAN HEAT ISLAND OF FREIBURG MAPPED BY BIKE.</b> <br>Twenty-five bicycles run concurrently through Freiburg with our open-source <a href="https://github.com/achristen/Meteobike" target="_empty">Meteobike Sensors</a>.<br>
+            <p><b>THE URBAN HEAT ISLAND OF FREIBURG MAPPED BY BIKE.</b>
+                <br>Twenty-five bicycles run concurrently through Freiburg with our open-source <a href="https://github.com/achristen/Meteobike" target="_empty">Meteobike Sensors</a>.
+                <br>
                 <small>via <a href="www.meteo.uni-freiburg.de">Umweltmeteorologie Albert-Ludwigs-Universit&auml;t Freiburg</a> | <a href="http://jk-lee.com/">J.K. Lee</a> </small>
             </p>
         </div>
         <div class="playback">
-            <div id="start" class="btn"><p>&#x25BA;</p></div>
-            <div id="stop" class="btn"><p>&#9612;&#9612;</p></div> 
+            <div id="start" class="btn">
+                <p>&#x25BA;</p>
+            </div>
+            <div id="stop" class="btn">
+                <p>&#9612;&#9612;</p>
+            </div>
             <div class='session' id='sliderbar'>
                 <input id='slider' class='row' type='range' min='0' max='0' step='1' value='0' />
                 <p>
@@ -36,14 +42,10 @@
                 <div>
                     <select id="variables">
                         <option value="Temperature_diff_K" selected>Air Temperature Difference (K)</option>
-                        <!-- <option value="Absolute_temperature_degC">Temperature (C)</option> -->
                         <option value="Relhumidity_diff_percent">Relative Humidity Difference (%)</option>
-                        <!-- <option value="Relhumidity_percent">Relative Humidity (%)</option> -->
                         <option value="Vapourpressure_diff_hPa">Vapour Pressure Difference (hPa)</option>
-                        <!-- <option value="Vapourpressure_hPa">Vapour Pressure (hPa)</option> -->
                     </select>
                 </div>
-                
             </div>
         </div>
     </div>

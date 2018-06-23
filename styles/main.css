@@ -3,7 +3,7 @@ html {
     width: 100%;
     height: 100%;
     margin: 0;
-    font-family: Helvetica, sans-serif;
+    font-family: 'Roboto Mono', monospace;
 }
 
 
@@ -49,7 +49,7 @@ html {
     background: white;
     border: 2px solid black;
     flex-grow:1;
-    height:40px;
+    height:33px;
 }
 
 #active-time{
@@ -64,13 +64,13 @@ html {
 }
 
 .btn{
-    padding:10px;
+    padding:6px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items:center;
-    width:16px;
+    width:24px;
     height: 28px;
     background-color:white;
     border: 2px solid black;
@@ -129,7 +129,7 @@ select{
     /*height:40px;*/
     padding:4px;
     text-align: left;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 small{

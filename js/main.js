@@ -233,7 +233,7 @@ window.onload = (function() {
 
             // filter data
             data = data.filter((d, idx) => {
-                if (idx % 12 == 0) return d;
+                if (idx % 2 == 0) return d;
             })
 
             console.log(data);

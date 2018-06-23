@@ -59,6 +59,7 @@ html {
     border: 1px solid white;
     font-size: 11px;
     min-width:260px;
+    width:262px;
     display: inline-block;
     text-align: center;
 }

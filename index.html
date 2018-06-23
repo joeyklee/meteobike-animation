@@ -26,6 +26,15 @@
                 <small>via <a href="www.meteo.uni-freiburg.de">Umweltmeteorologie Albert-Ludwigs-Universit&auml;t Freiburg</a> | <a href="http://jk-lee.com/">J.K. Lee</a> </small>
             </p>
         </div>
+        <div id="variableSelector">
+            <select id="variables">
+                <option value="Temperature_diff_K" selected>Air Temperature Difference (K)</option>
+                <option value="Relhumidity_diff_percent">Relative Humidity Difference (%)</option>
+                <option value="Vapourpressure_diff_hPa">Vapour Pressure Difference (hPa)</option>
+            </select>
+        </div>
+        <div id="legend"></div>
+
         <div class="playback">
             <div id="start" class="btn">
                 <p>&#x25BA;</p>
@@ -38,14 +47,6 @@
                 <p>
                     <label id='active-time'></label>
                 </p>
-                <div id="legend"></div>
-                <div>
-                    <select id="variables">
-                        <option value="Temperature_diff_K" selected>Air Temperature Difference (K)</option>
-                        <option value="Relhumidity_diff_percent">Relative Humidity Difference (%)</option>
-                        <option value="Vapourpressure_diff_hPa">Vapour Pressure Difference (hPa)</option>
-                    </select>
-                </div>
             </div>
         </div>
     </div>

@@ -52,10 +52,14 @@ html {
     height:40px;
 }
 
-
+.desc{
+    width:270px;
+    display: flex;
+    font-size:11px;
+    margin-top:2px;
+}
 #active-time{
     padding:4px;
-    margin-top:0;
     background: white;
     border: 1px solid white;
     font-size: 11px;
@@ -71,11 +75,11 @@ html {
     flex-direction: column;
     justify-content: center;
     align-items:center;
-    width:30px;
+    width:16px;
     height: 28px;
     background-color:white;
     border: 2px solid black;
-    margin-right: 4px;
+    margin-right: 2px;
 }
 #stop{
     font-size: 11px;
@@ -102,6 +106,7 @@ select{
     justify-content: flex-start;
     background-color:white;
     border:1px solid white;
+    margin-top:2px;
 }
 .legendItem{
     flex-basis:100%;

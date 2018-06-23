@@ -26,6 +26,18 @@
             <div class='session' id='sliderbar'>
                 <input id='slider' class='row' type='range' min='0' max='0' step='1' value='0' />
                 <p><label id='active-time'></label></p>
+                <div id="legend"></div>
+                <div>
+                    <select id="variables">
+                        <option value="Temperature_diff_K" selected>Air Temperature Difference (K)</option>
+                        <!-- <option value="Absolute_temperature_degC">Temperature (C)</option> -->
+                        <option value="Relhumidity_diff_percent">Relative Humidity Difference (%)</option>
+                        <!-- <option value="Relhumidity_percent">Relative Humidity (%)</option> -->
+                        <option value="Vapourpressure_diff_hPa">Vapour Pressure Difference (hPa)</option>
+                        <!-- <option value="Vapourpressure_hPa">Vapour Pressure (hPa)</option> -->
+                    </select>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -33,6 +45,14 @@
     <!-- Scripts -->
     <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
     <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-format.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-time.v1.min.js"></script>
+    <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
+    <script src="https://d3js.org/d3-scale.v2.min.js"></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
     <script type="text/javascript" src="js/main.js"></script>
 </body>

@@ -52,14 +52,9 @@ html {
     height:40px;
 }
 
-.desc{
-    width:270px;
-    display: flex;
-    font-size:11px;
-    margin-top:2px;
-}
 #active-time{
     padding:4px;
+    margin-top:2px;
     background: white;
     border: 1px solid white;
     font-size: 11px;
@@ -116,4 +111,27 @@ select{
     align-items: center;
     font-size:8px;
     color:white;
+}
+
+#projectDescription{
+    
+    /*margin-right: 6px;*/
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-bottom: 2px;
+}
+#projectDescription p{
+    width:344px;
+    background-color:white;
+    border:2px solid black;
+    /*height:40px;*/
+    padding:4px;
+    text-align: left;
+    font-size: 12px;
+}
+
+small{
+    font-size: 8px;
 }

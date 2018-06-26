@@ -167,6 +167,7 @@ window.onload = (function() {
 
                 slider.dispatchEvent(new Event("input", {bubbles:false}));
 
+                // remove the existing stuff
                 activeIds.forEach(id => {
                     mapContainer.removeLayer(id)
                     mapContainer.removeSource(id)

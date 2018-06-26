@@ -69,6 +69,7 @@ html {
     font-size: 10px;
 }
 
+#campaignSelector, 
 #variableSelector{
     width: 100%;
 }
@@ -82,6 +83,20 @@ html {
     padding:2px;
 }
 #variableSelector #variables option{
+    width: 100%;
+    margin:0;
+}
+
+#campaignSelector #campaign{
+    width: 100%;
+    margin-bottom:2px;
+    padding:0;
+    min-width: 364px;
+    border-radius: 0px;
+    border:2px solid black;
+    padding:2px;
+}
+#campaignSelector #campaign option{
     width: 100%;
     margin:0;
 }

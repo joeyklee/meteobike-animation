@@ -126,7 +126,6 @@ window.onload = (function() {
                     mapContainer.setFilter(id, ['<=', ['number', ['get', 'Time_UTC']], parseInt(time) ]);    
                 })
                 
-                // changeMapDataColors();
             });
 
             // adjust variables change 
@@ -139,7 +138,6 @@ window.onload = (function() {
                     paintStyle['line-color'].property = selectedVariable;
                     mapContainer.setPaintProperty(id, 'line-color', paintStyle['line-color']);
                 })
-                // changeMapDataColors();
             });
             variableSelector.dispatchEvent(new Event('change', { bubbles: false }));
 
@@ -178,6 +176,32 @@ window.onload = (function() {
 
         } // end attachListeners
 
+
+        /**
+        @ make legend
+        @*/
+        function makeLegend(){
+          // change legend
+          legend.innerHTML = "";
+
+          paintStyle['line-color'].stops.forEach(stop => {
+              let legendItem = document.createElement("div")
+              legendItem.classList.add('legendItem')
+              legendItem.style.setProperty("background-color", stop[1])
+
+              if (selectedVariable === "Temperature_diff_K") {
+                  legendItem.innerHTML = stop[0]
+              } else if (selectedVariable === "Relhumidity_diff_percent") {
+                  legendItem.innerHTML = unscaleFromTempDiff(stop[0], -5)
+              } else if (selectedVariable === "Vapourpressure_diff_hPa") {
+                  legendItem.innerHTML = unscaleFromTempDiff(stop[0], -0.8)
+              } else {
+                  legendItem.innerHTML = stop[0]
+              }
+
+              legend.appendChild(legendItem)
+          })
+        }
 
         return {
             init: init
@@ -220,6 +244,9 @@ window.onload = (function() {
             })
         }
 
+        /**
+        @ load sensor data
+        @*/
         let loadSensorData = function(selectedCampaign){
             /*
             @ Parse CSV
@@ -244,10 +271,151 @@ window.onload = (function() {
                     resolve(data);
                 })
             })
-
-            
         }
 
+        /**
+        @ create line segments
+        @*/
+        function createLineSegments(data) {
+            let sensorIds;
+            activeIds = [];
+
+            return new Promise((resolve, reject) => {
+
+                // filter data
+                data = data.filter((d, idx) => {
+                    if (idx % 2 == 0) return d;
+                })
+
+                // get the unique sensor ids
+                sensorIds = data.map(d => {
+                    return d.System_ID;
+                }).filter((v, i, a) => a.indexOf(v) === i);
+
+                // create a data object
+                sensorIds = sensorIds.map(d => {
+                    
+                    activeIds.push(d);
+
+                    return {
+                        "type": "FeatureCollection",
+                        "id": d,
+                        "features": []
+                    }
+                });
+
+                variableSelector.value = selectedVariable;
+
+                // fill the data in to each object
+                sensorIds.forEach((geojson, idx1) => {
+                    data.forEach((row, idx2) => {
+
+                        if (row.System_ID === geojson.id) {
+                            let feat = new createNewFeature();
+                            feat.properties = row;
+                            // create a linestring feature for each feature using the beginning
+                            // and end of each point 
+                            // and using the data from the first point
+                            if ((idx2 < data.length - 1) && (data[idx2].System_ID === data[idx2 + 1].System_ID)) {
+                                feat.geometry.coordinates.push([row.Longitude, row.Latitude])
+                                feat.geometry.coordinates.push([data[idx2 + 1].Longitude, data[idx2 + 1].Latitude])
+                            } else {
+                                feat.geometry.coordinates.push([row.Longitude, row.Latitude])
+                                feat.geometry.coordinates.push([data[idx2 - 1].Longitude, data[idx2 - 1].Latitude])
+                            }
+
+                            geojson.features.push(feat)
+                        }
+                    })
+                })
+
+                // resolve the sensorIds as promise
+                if (sensorIds) {
+                    resolve(sensorIds)
+                } else {
+                    reject("error with sensorIds")
+                }
+            })
+        }
+
+
+        /**
+        @ add layers to the map
+        @*/
+        function addLayersToMap(sensorIds) {
+            return new Promise((resolve, reject) => {
+                // add layer and apply style
+                sensorIds.forEach(geojson => {
+                    mapContainer.addLayer({
+                        id: geojson.id,
+                        type: 'line',
+                        source: {
+                            type: 'geojson',
+                            data: geojson
+                        },
+                        filter: ['<=', ['number', ['get', 'Time_UTC']], startTime],
+                        layout: {
+                            'line-cap': 'round'
+                        },
+                        paint: paintStyle
+                    })
+                })
+
+                // pass data along
+                if (sensorIds) {
+                    resolve(sensorIds);
+                } else {
+                    reject("error in addLayersToMap")
+                }
+            })
+        };
+
+        /**
+        @ apply the map styles
+        @ NOTE: see selectedVariable to see how changes are applied on change
+        @*/
+        function applyMapStyles(sensorIds){ 
+            sensorIds.forEach(geojson => {
+                paintStyle['line-color'].property = selectedVariable;
+                mapContainer.setPaintProperty(geojson.id, 'line-color', paintStyle['line-color']);
+            })
+
+            return new Promise( (resolve, reject) => {
+              resolve(sensorIds);
+            })
+        } 
+
+
+        /**
+        @ apply filtering based on slider
+        @ NOTE: see selectSlider to see how changes are applied on change
+        @*/
+        function filterMapData(sensorIds){
+          // update the map
+          sensorIds.forEach(geojson => {
+              mapContainer.setFilter(geojson.id, ['<=', ['number', ['get', 'Time_UTC']], parseInt(time) ]);
+          })
+        }
+
+        /**
+        @ helper function
+        @ */
+        // create a  new geojson linestring
+        function createNewFeature() {
+            return {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "LineString",
+                    "coordinates": []
+                }
+            }
+        }
+
+
+        /**
+        @ put it all together as a promise chain
+        @*/
         let makeVizualization = function(){
             getCampaignData()
                 .then(loadSensorData)
@@ -265,195 +433,10 @@ window.onload = (function() {
 
     })();
 
-
-
-    Setup.init();
-    MapApp.init();
-
-    mapContainer.on('load', function() {
-        MapApp.makeVizualization();
-    })
-
+    /***********************************************/
     /**
-    @  make()
-    */
-    // function make() {
-    //     // get the campaign data first
-    //     getCampaignData()
-    //         // then load up your data
-    //         .then(selectedCampaign => {
-               
-    //                 .then(createLineSegments)
-    //                 .then(addLayersToMap)
-    //                 .then(attachMapListeners)
-    //         });
-    // }
-
-
-    
-
-
-    function createLineSegments(data) {
-        console.log(data.length)
-        let sensorIds;
-        activeIds = [];
-
-        return new Promise((resolve, reject) => {
-
-            // filter data
-            data = data.filter((d, idx) => {
-                if (idx % 2 == 0) return d;
-            })
-
-            // get the unique sensor ids
-            sensorIds = data.map(d => {
-                return d.System_ID;
-            }).filter((v, i, a) => a.indexOf(v) === i);
-
-            // create a data object
-            sensorIds = sensorIds.map(d => {
-                
-                activeIds.push(d);
-
-                return {
-                    "type": "FeatureCollection",
-                    "id": d,
-                    "features": []
-                }
-            });
-
-            variableSelector.value = selectedVariable;
-
-            // fill the data in to each object
-            sensorIds.forEach((geojson, idx1) => {
-                data.forEach((row, idx2) => {
-
-                    if (row.System_ID === geojson.id) {
-                        let feat = new createNewFeature();
-                        feat.properties = row;
-                        // create a linestring feature for each feature using the beginning
-                        // and end of each point 
-                        // and using the data from the first point
-                        if ((idx2 < data.length - 1) && (data[idx2].System_ID === data[idx2 + 1].System_ID)) {
-                            feat.geometry.coordinates.push([row.Longitude, row.Latitude])
-                            feat.geometry.coordinates.push([data[idx2 + 1].Longitude, data[idx2 + 1].Latitude])
-                        } else {
-                            feat.geometry.coordinates.push([row.Longitude, row.Latitude])
-                            feat.geometry.coordinates.push([data[idx2 - 1].Longitude, data[idx2 - 1].Latitude])
-                        }
-
-                        geojson.features.push(feat)
-                    }
-                })
-            })
-
-            console.log("create Line Segments", sensorIds.length)
-            // resolve the sensorIds as promise
-            if (sensorIds) {
-                resolve(sensorIds)
-            } else {
-                reject("error with sensorIds")
-            }
-        })
-    }
-
-
-    function addLayersToMap(sensorIds) {
-
-        console.log("addLayersToMap", sensorIds.length)
-        return new Promise((resolve, reject) => {
-            // add layer and apply style
-            sensorIds.forEach(geojson => {
-                mapContainer.addLayer({
-                    id: geojson.id,
-                    type: 'line',
-                    source: {
-                        type: 'geojson',
-                        data: geojson
-                    },
-                    filter: ['<=', ['number', ['get', 'Time_UTC']], startTime],
-                    layout: {
-                        'line-cap': 'round'
-                    },
-                    paint: paintStyle
-                })
-            })
-
-            // pass data along
-            if (sensorIds) {
-                resolve(sensorIds);
-            } else {
-                reject("error in addLayersToMap")
-            }
-        })
-    };
-
-    function makeLegend(){
-
-      // change legend
-      legend.innerHTML = "";
-
-      paintStyle['line-color'].stops.forEach(stop => {
-          let legendItem = document.createElement("div")
-          legendItem.classList.add('legendItem')
-          legendItem.style.setProperty("background-color", stop[1])
-
-          if (selectedVariable === "Temperature_diff_K") {
-              legendItem.innerHTML = stop[0]
-          } else if (selectedVariable === "Relhumidity_diff_percent") {
-              legendItem.innerHTML = unscaleFromTempDiff(stop[0], -5)
-          } else if (selectedVariable === "Vapourpressure_diff_hPa") {
-              legendItem.innerHTML = unscaleFromTempDiff(stop[0], -0.8)
-          } else {
-              legendItem.innerHTML = stop[0]
-          }
-
-          legend.appendChild(legendItem)
-      })
-
-    }
-
-
-    function applyMapStyles(sensorIds){ 
-        console.log(sensorIds)
-        sensorIds.forEach(geojson => {
-            paintStyle['line-color'].property = selectedVariable;
-            mapContainer.setPaintProperty(geojson.id, 'line-color', paintStyle['line-color']);
-        })
-
-        return new Promise( (resolve, reject) => {
-          resolve(sensorIds);
-        })
-      
-    } 
-
-
-            
-
-
-    function filterMapData(sensorIds){
-      // update the map
-      sensorIds.forEach(geojson => {
-          mapContainer.setFilter(geojson.id, ['<=', ['number', ['get', 'Time_UTC']], parseInt(time) ]);
-      })
-    }
-
-    /**
-    @ helper functions
+    @ helper function
     @ */
-
-    // create a  new geojson linestring
-    function createNewFeature() {
-        return {
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-                "type": "LineString",
-                "coordinates": []
-            }
-        }
-    }
-
     // scale data to tempDiff values
     function scaleToTempDiff(val, divisor) {
         return Math.floor(val / divisor).toFixed(1)
@@ -464,5 +447,13 @@ window.onload = (function() {
         return (val * multiplier).toFixed(1)
     }
 
+    /**
+    @ Make the app
+    @*/
+    Setup.init();
+    MapApp.init();
+    mapContainer.on('load', function() {
+        MapApp.makeVizualization();
+    });
 
 })();

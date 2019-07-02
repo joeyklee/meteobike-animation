@@ -1,4 +1,25 @@
-body,
+* {
+    margin:0;
+    box-sizing: border-box;
+    font-family: 'Roboto', 'Arial', sans-serif;
+}
+
+html, body{
+    width:100%;
+    height:100%;
+    font-size:16pt;
+}
+
+#mapContainer{
+    width:100%;
+    height:100%;
+}
+
+
+
+
+
+/* body,
 html {
     width: 100%;
     height: 100%;
@@ -18,7 +39,6 @@ html {
     position: absolute;
     z-index: 100;
     width: 360px;
-    /*height: 200px;*/
     top:0px;
     right:0px;
     display: flex;
@@ -53,7 +73,6 @@ html {
 }
 
 #projectDescription{
-    /*margin-right: 6px;*/
     width:100%;
     display: flex;
     flex-direction: row;
@@ -63,7 +82,6 @@ html {
     border:2px solid black;
 }
 #projectDescription p{
-    /*width:344px;*/
     padding:4px;
     text-align: left;
     font-size: 10px;
@@ -166,4 +184,4 @@ input{
 
 small{
     font-size: 8px;
-}
+} */

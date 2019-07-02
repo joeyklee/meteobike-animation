@@ -13,52 +13,15 @@
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,400,700" rel="stylesheet">
-    <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+    <!-- <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' /> -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
 
 <body>
-    <div id="controls">
-        <div id="projectDescription">
-            <p><b>THE URBAN HEAT ISLAND OF FREIBURG MAPPED BY BIKE.</b>
-                <br>Twenty-five bicycles run concurrently through Freiburg with our open-source <a href="https://github.com/achristen/Meteobike" target="_empty">Meteobike Sensors</a>.
-                <br>
-                <small>via <a href="http://www.meteo.uni-freiburg.de/en">Umweltmeteorologie Albert-Ludwigs-Universit&auml;t Freiburg</a> | <a href="http://jk-lee.com/">J.K. Lee</a> </small>
-            </p>
-        </div>
-        <div id="campaignSelector">
-            <select id="campaign">
-                <option value="ALL-SYSTEMS-2018-06-14" selected>14 June 2018</option>
-                <option value="ALL-SYSTEMS-2018-06-19">19 June 2018</option>
-            </select>
-        </div>
-        <div id="variableSelector">
-            <select id="variables">
-                <option value="Temperature_diff_K" selected>Air Temperature Difference (K)</option>
-                <option value="Relhumidity_diff_percent">Relative Humidity Difference (%)</option>
-                <option value="Vapourpressure_diff_hPa">Vapour Pressure Difference (hPa)</option>
-            </select>
-        </div>
-        <div id="legend"></div>
-
-        <div class="playback">
-            <div id="start" class="btn">
-                <p>&#x25BA;</p>
-            </div>
-            <div id="stop" class="btn">
-                <p>&#9612;&#9612;</p>
-            </div>
-            <div class='session' id='sliderbar'>
-                <input id='slider' class='row' type='range' min='0' max='0' step='1' value='0' />
-                <p>
-                    <label id='active-time'></label>
-                </p>
-            </div>
-        </div>
-    </div>
     <div id="mapContainer"></div>
     <!-- Scripts -->
-    <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
+    <!-- <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
     <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
     <script src="https://d3js.org/d3-array.v1.min.js"></script>
     <script src="https://d3js.org/d3-collection.v1.min.js"></script>
@@ -67,9 +30,10 @@
     <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
     <script src="https://d3js.org/d3-time.v1.min.js"></script>
     <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
-    <script src="https://d3js.org/d3-scale.v2.min.js"></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
-    <script type="text/javascript" src="js/main.js"></script>
+    <script src="https://d3js.org/d3-scale.v2.min.js"></script> -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+    
+    <script type="text/javascript" src="js/index.js"></script>
 </body>
 
 </html>
